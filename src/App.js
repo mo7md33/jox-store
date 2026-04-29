@@ -2,30 +2,21 @@ import React, { useState, useEffect } from 'react';
 import StorePage from './StorePage';
 import AdminPage from './AdminPage';
 import ContactPage from './ContactPage';
+import { supabase } from './supabaseClient';
 
 const ADMIN_PASSWORD = '01153473807';
-
-const initialProducts = [
-  { id: 1, name: 'قميص كلاسيك أبيض', price: 450, category: 'قمصان', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400', description: 'قميص رجالي كلاسيك فاخر' },
-  { id: 2, name: 'بنطلون كاجوال', price: 650, category: 'بناطيل', image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400', description: 'بنطلون أنيق للإطلالات اليومية' },
-  { id: 3, name: 'جاكيت رجالي', price: 1200, category: 'جاكيتات', image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400', description: 'جاكيت فاخر للمناسبات' },
-  { id: 4, name: 'تيشرت', price: 250, category: 'تيشرتات', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', description: 'تيشرت قطن ناعم' },
-  { id: 5, name: 'كوتشي', price: 850, category: 'كوتشي', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400', description: 'كوتشي مريح وأنيق' },
-];
 
 function App() {
   const [page, setPage] = useState('store');
   const [showContact, setShowContact] = useState(false);
-  const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem('jox_products');
-    return saved ? JSON.parse(saved) : initialProducts;
-  });
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('jox_products', JSON.stringify(products));
-  }, [products]);
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const checkHash = () => {
@@ -37,6 +28,13 @@ function App() {
     window.addEventListener('hashchange', checkHash);
     return () => window.removeEventListener('hashchange', checkHash);
   }, []);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
+    if (!error) setProducts(data || []);
+    setLoading(false);
+  };
 
   const addToCart = (product) => {
     setCart(prev => {
@@ -75,13 +73,35 @@ function App() {
     setPage('store');
   };
 
-  const addProduct = (product) => {
-    setProducts(prev => [...prev, { ...product, id: Date.now() }]);
+  const addProduct = async (product) => {
+    const { data, error } = await supabase.from('products').insert([product]).select();
+    if (!error) setProducts(prev => [data[0], ...prev]);
   };
 
-  const deleteProduct = (id) => {
-    setProducts(prev => prev.filter(p => p.id !== id));
+  const deleteProduct = async (id) => {
+    const { error } = await supabase.from('products').delete().eq('id', id);
+    if (!error) setProducts(prev => prev.filter(p => p.id !== id));
   };
+
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: '100vh', background: '#0f1a0f',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexDirection: 'column', gap: '16px'
+      }}>
+        <div style={{
+          width: '50px', height: '50px',
+          border: '3px solid #1e4d2b',
+          borderTop: '3px solid #f0ebe0',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <p style={{ color: '#4a7c5a', fontFamily: 'Georgia, serif' }}>JOX STORE</p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
 
   return (
     <div>
