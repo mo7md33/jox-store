@@ -42,12 +42,12 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0f1a0f', direction: 'rtl' }}>
+    <div style={{ minHeight: '100vh', background: '#f0ebe0', direction: 'rtl' }}>
 
       {/* Header */}
       <header style={{
-        background: '#0f1a0f',
-        borderBottom: '1px solid #1e4d2b55',
+        background: '#ffffff',
+        borderBottom: '2px solid #1e4d2b22',
         padding: '0 24px',
         position: 'sticky',
         top: 0,
@@ -55,12 +55,13 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: '70px'
+        height: '70px',
+        boxShadow: '0 2px 10px #1e4d2b11'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <JoxLogo size={48} />
           <div>
-            <div style={{ fontFamily: 'Georgia, serif', color: '#f0ebe0', fontSize: '18px', fontWeight: '700', letterSpacing: '2px' }}>JOX.EG</div>
+            <div style={{ fontFamily: 'Georgia, serif', color: '#1e4d2b', fontSize: '18px', fontWeight: '700', letterSpacing: '2px' }}>JOX.EG</div>
             <div style={{ color: '#4a7c5a', fontSize: '10px', letterSpacing: '3px' }}>MENS FASHION</div>
           </div>
         </div>
@@ -68,9 +69,9 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
           onClick={() => setShowCart(true)}
           style={{
             background: totalItems > 0 ? '#1e4d2b' : 'transparent',
-            border: '1px solid #1e4d2b',
+            border: '2px solid #1e4d2b',
             borderRadius: '8px',
-            color: '#f0ebe0',
+            color: totalItems > 0 ? '#f0ebe0' : '#1e4d2b',
             padding: '8px 16px',
             display: 'flex', alignItems: 'center', gap: '8px',
             fontWeight: '600', fontSize: '14px',
@@ -90,14 +91,15 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       <div style={{
         textAlign: 'center',
         padding: '60px 24px 40px',
-        borderBottom: '1px solid #1e4d2b33'
+        borderBottom: '1px solid #1e4d2b22',
+        background: '#ffffff'
       }}>
         <JoxLogo size={90} />
         <div style={{ marginTop: '20px', color: '#4a7c5a', fontSize: '12px', letterSpacing: '4px', marginBottom: '12px' }}>PREMIUM COLLECTION</div>
-        <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '42px', color: '#f0ebe0', marginBottom: '12px', lineHeight: '1.2' }}>
+        <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '42px', color: '#1e4d2b', marginBottom: '12px', lineHeight: '1.2' }}>
           أناقة لا حدود لها
         </h1>
-        <p style={{ color: '#4a7c5a', fontSize: '15px' }}>اختر من أرقى تشكيلات الملابس الرجالية</p>
+        <p style={{ color: '#555', fontSize: '15px' }}>اختر من أرقى تشكيلات الملابس الرجالية</p>
       </div>
 
       {/* Categories */}
@@ -107,7 +109,8 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
         gap: '10px',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        borderBottom: '1px solid #1e4d2b33'
+        borderBottom: '1px solid #1e4d2b22',
+        background: '#f0ebe0'
       }}>
         {categories.map(cat => (
           <button
@@ -116,11 +119,11 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
             style={{
               padding: '8px 20px',
               borderRadius: '20px',
-              border: '1px solid',
-              borderColor: activeCategory === cat ? '#1e4d2b' : '#2a3a2a',
+              border: '2px solid',
+              borderColor: '#1e4d2b',
               background: activeCategory === cat ? '#1e4d2b' : 'transparent',
-              color: activeCategory === cat ? '#f0ebe0' : '#4a7c5a',
-              fontWeight: '500',
+              color: activeCategory === cat ? '#f0ebe0' : '#1e4d2b',
+              fontWeight: '600',
               fontSize: '14px',
               whiteSpace: 'nowrap',
               transition: 'all 0.3s'
@@ -140,15 +143,16 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       }}>
         {filtered.map(product => (
           <div key={product.id} style={{
-            background: '#162016',
+            background: '#ffffff',
             borderRadius: '12px',
             overflow: 'hidden',
-            border: '1px solid #2a3a2a',
+            border: '2px solid #e0d9cc',
             transition: 'all 0.3s',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px #1e4d2b11'
           }}
             onMouseEnter={e => e.currentTarget.style.borderColor = '#1e4d2b'}
-            onMouseLeave={e => e.currentTarget.style.borderColor = '#2a3a2a'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = '#e0d9cc'}
           >
             <div
               onClick={() => setSelectedProduct(product)}
@@ -169,10 +173,10 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               }}>{product.category}</div>
             </div>
             <div style={{ padding: '16px' }}>
-              <h3 style={{ fontFamily: 'Georgia, serif', color: '#f0ebe0', fontSize: '16px', marginBottom: '6px' }}>{product.name}</h3>
-              <p style={{ color: '#4a7c5a', fontSize: '12px', marginBottom: '12px' }}>{product.description}</p>
+              <h3 style={{ fontFamily: 'Georgia, serif', color: '#1a1a1a', fontSize: '16px', marginBottom: '6px' }}>{product.name}</h3>
+              <p style={{ color: '#555', fontSize: '12px', marginBottom: '12px' }}>{product.description}</p>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ color: '#7ab88a', fontWeight: '700', fontSize: '18px' }}>{product.price} جنيه</span>
+                <span style={{ color: '#1e4d2b', fontWeight: '700', fontSize: '18px' }}>{product.price} جنيه</span>
                 <button
                   onClick={() => handleAddToCart(product)}
                   style={{
@@ -195,8 +199,8 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
 
       {/* Footer */}
       <footer style={{
-        background: '#0a120a',
-        borderTop: '1px solid #1e4d2b33',
+        background: '#1e4d2b',
+        borderTop: '2px solid #1e4d2b',
         padding: '40px 24px',
         textAlign: 'center'
       }}>
@@ -205,79 +209,79 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
         </div>
         <div style={{ fontFamily: 'Georgia, serif', color: '#f0ebe0', fontSize: '22px', marginBottom: '24px', letterSpacing: '3px' }}>JOX.EG</div>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap', marginBottom: '24px' }}>
-          <div style={{ color: '#4a7c5a', fontSize: '14px' }}>
-            <span style={{ color: '#7ab88a' }}>📞</span> {STORE_INFO.phone}
+          <div style={{ color: '#f0ebe0', fontSize: '14px' }}>
+            <span>📞</span> {STORE_INFO.phone}
           </div>
-          <div style={{ color: '#4a7c5a', fontSize: '14px' }}>
-            <span style={{ color: '#7ab88a' }}>📍</span> {STORE_INFO.location}
+          <div style={{ color: '#f0ebe0', fontSize: '14px' }}>
+            <span>📍</span> {STORE_INFO.location}
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: '24px' }}>
           <a href={STORE_INFO.instagram} target="_blank" rel="noreferrer" style={{
-            background: '#162016', border: '1px solid #1e4d2b55',
+            background: '#f0ebe0', border: 'none',
             borderRadius: '8px', padding: '10px 20px',
-            color: '#7ab88a', textDecoration: 'none', fontSize: '14px',
-            display: 'flex', alignItems: 'center', gap: '8px'
+            color: '#1e4d2b', textDecoration: 'none', fontSize: '14px',
+            display: 'flex', alignItems: 'center', gap: '8px',
+            fontWeight: '600'
           }}>📸 Instagram</a>
           <a href={STORE_INFO.tiktok} target="_blank" rel="noreferrer" style={{
-            background: '#162016', border: '1px solid #1e4d2b55',
+            background: '#f0ebe0', border: 'none',
             borderRadius: '8px', padding: '10px 20px',
-            color: '#7ab88a', textDecoration: 'none', fontSize: '14px',
-            display: 'flex', alignItems: 'center', gap: '8px'
+            color: '#1e4d2b', textDecoration: 'none', fontSize: '14px',
+            display: 'flex', alignItems: 'center', gap: '8px',
+            fontWeight: '600'
           }}>🎵 TikTok</a>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-          <button
-            onClick={onContactClick}
-            style={{
-              background: '#1e4d2b', border: 'none',
-              borderRadius: '8px', color: '#f0ebe0',
-              padding: '12px 32px', fontWeight: '700',
-              fontSize: '15px', cursor: 'pointer'
-            }}
-          >📩 تواصل معنا</button>
-        </div>
+        <button
+          onClick={onContactClick}
+          style={{
+            background: '#f0ebe0', border: 'none',
+            borderRadius: '8px', color: '#1e4d2b',
+            padding: '12px 32px', fontWeight: '700',
+            fontSize: '15px', cursor: 'pointer'
+          }}
+        >📩 تواصل معنا</button>
       </footer>
 
       {/* Cart Drawer */}
       {showCart && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', justifyContent: 'flex-start' }}>
-          <div onClick={() => setShowCart(false)} style={{ position: 'absolute', inset: 0, background: '#000000aa' }} />
+          <div onClick={() => setShowCart(false)} style={{ position: 'absolute', inset: 0, background: '#00000066' }} />
           <div style={{
             position: 'relative', width: '360px', maxWidth: '90vw',
-            background: '#162016', height: '100%',
+            background: '#ffffff', height: '100%',
             display: 'flex', flexDirection: 'column',
-            borderLeft: '1px solid #1e4d2b44'
+            borderLeft: '2px solid #1e4d2b22'
           }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid #2a3a2a', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontFamily: 'Georgia, serif', color: '#f0ebe0', fontSize: '20px' }}>السلة 🛒</h2>
-              <button onClick={() => setShowCart(false)} style={{ background: 'none', border: 'none', color: '#4a7c5a', fontSize: '20px' }}>✕</button>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid #e0d9cc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontFamily: 'Georgia, serif', color: '#1e4d2b', fontSize: '20px' }}>السلة 🛒</h2>
+              <button onClick={() => setShowCart(false)} style={{ background: 'none', border: 'none', color: '#555', fontSize: '20px' }}>✕</button>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '16px 24px' }}>
               {cart.length === 0 ? (
-                <div style={{ textAlign: 'center', color: '#4a7c5a', marginTop: '60px' }}>
+                <div style={{ textAlign: 'center', color: '#555', marginTop: '60px' }}>
                   <div style={{ fontSize: '48px', marginBottom: '16px' }}>🛒</div>
                   <p>السلة فاضية</p>
                 </div>
               ) : cart.map(item => (
                 <div key={item.id} style={{
                   display: 'flex', gap: '12px', alignItems: 'center',
-                  padding: '12px 0', borderBottom: '1px solid #2a3a2a'
+                  padding: '12px 0', borderBottom: '1px solid #e0d9cc'
                 }}>
                   <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '6px' }} />
                   <div style={{ flex: 1 }}>
-                    <p style={{ color: '#f0ebe0', fontSize: '14px', marginBottom: '8px' }}>{item.name}</p>
-                    <p style={{ color: '#7ab88a', fontSize: '13px', marginBottom: '8px' }}>{item.price} جنيه</p>
+                    <p style={{ color: '#1a1a1a', fontSize: '14px', marginBottom: '8px' }}>{item.name}</p>
+                    <p style={{ color: '#1e4d2b', fontSize: '13px', marginBottom: '8px' }}>{item.price} جنيه</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <button
                         onClick={() => updateQty(item.id, item.qty - 1)}
                         style={{
-                          background: '#2a3a2a', border: 'none', borderRadius: '4px',
-                          color: '#f0ebe0', width: '28px', height: '28px',
+                          background: '#e0d9cc', border: 'none', borderRadius: '4px',
+                          color: '#1a1a1a', width: '28px', height: '28px',
                           fontSize: '16px', fontWeight: '700'
                         }}
                       >-</button>
-                      <span style={{ color: '#f0ebe0', fontWeight: '700', minWidth: '20px', textAlign: 'center' }}>{item.qty}</span>
+                      <span style={{ color: '#1a1a1a', fontWeight: '700', minWidth: '20px', textAlign: 'center' }}>{item.qty}</span>
                       <button
                         onClick={() => updateQty(item.id, item.qty + 1)}
                         style={{
@@ -286,7 +290,7 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                           fontSize: '16px', fontWeight: '700'
                         }}
                       >+</button>
-                      <span style={{ color: '#7ab88a', fontSize: '13px', marginRight: 'auto' }}>{item.price * item.qty} جنيه</span>
+                      <span style={{ color: '#1e4d2b', fontSize: '13px', marginRight: 'auto' }}>{item.price * item.qty} جنيه</span>
                       <button onClick={() => removeFromCart(item.id)} style={{ background: 'none', border: 'none', color: '#e74c3c', fontSize: '16px' }}>🗑</button>
                     </div>
                   </div>
@@ -294,10 +298,10 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               ))}
             </div>
             {cart.length > 0 && (
-              <div style={{ padding: '20px 24px', borderTop: '1px solid #2a3a2a' }}>
+              <div style={{ padding: '20px 24px', borderTop: '1px solid #e0d9cc' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                  <span style={{ color: '#4a7c5a' }}>الإجمالي:</span>
-                  <span style={{ color: '#7ab88a', fontWeight: '700', fontSize: '18px' }}>{totalPrice} جنيه</span>
+                  <span style={{ color: '#555' }}>الإجمالي:</span>
+                  <span style={{ color: '#1e4d2b', fontWeight: '700', fontSize: '18px' }}>{totalPrice} جنيه</span>
                 </div>
                 <button
                   onClick={whatsappOrder}
@@ -317,25 +321,26 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       {/* Product Modal */}
       {selectedProduct && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div onClick={() => setSelectedProduct(null)} style={{ position: 'absolute', inset: 0, background: '#000000cc' }} />
+          <div onClick={() => setSelectedProduct(null)} style={{ position: 'absolute', inset: 0, background: '#00000066' }} />
           <div style={{
-            position: 'relative', background: '#162016',
-            borderRadius: '12px', border: '1px solid #1e4d2b44',
-            maxWidth: '480px', width: '90%', overflow: 'hidden'
+            position: 'relative', background: '#ffffff',
+            borderRadius: '12px', border: '2px solid #e0d9cc',
+            maxWidth: '480px', width: '90%', overflow: 'hidden',
+            boxShadow: '0 10px 40px #00000033'
           }}>
             <img src={selectedProduct.image} alt={selectedProduct.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
             <div style={{ padding: '24px' }}>
-              <h2 style={{ fontFamily: 'Georgia, serif', color: '#f0ebe0', marginBottom: '8px' }}>{selectedProduct.name}</h2>
-              <p style={{ color: '#4a7c5a', marginBottom: '16px' }}>{selectedProduct.description}</p>
+              <h2 style={{ fontFamily: 'Georgia, serif', color: '#1a1a1a', marginBottom: '8px' }}>{selectedProduct.name}</h2>
+              <p style={{ color: '#555', marginBottom: '16px' }}>{selectedProduct.description}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ color: '#7ab88a', fontSize: '22px', fontWeight: '700' }}>{selectedProduct.price} جنيه</span>
+                <span style={{ color: '#1e4d2b', fontSize: '22px', fontWeight: '700' }}>{selectedProduct.price} جنيه</span>
                 <button
                   onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
                   style={{ background: '#1e4d2b', border: 'none', borderRadius: '8px', color: '#f0ebe0', padding: '10px 24px', fontWeight: '700' }}
                 >أضف للسلة</button>
               </div>
             </div>
-            <button onClick={() => setSelectedProduct(null)} style={{ position: 'absolute', top: '12px', left: '12px', background: '#000000aa', border: 'none', color: '#fff', borderRadius: '50%', width: '32px', height: '32px', fontSize: '16px' }}>✕</button>
+            <button onClick={() => setSelectedProduct(null)} style={{ position: 'absolute', top: '12px', left: '12px', background: '#00000066', border: 'none', color: '#fff', borderRadius: '50%', width: '32px', height: '32px', fontSize: '16px' }}>✕</button>
           </div>
         </div>
       )}
