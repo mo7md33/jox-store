@@ -17,15 +17,22 @@ function JoxLogo({ size = 50 }) {
   );
 }
 
-export default function StorePage({ products, cart, addToCart, removeFromCart, onAdminClick, onContactClick }) {
+export default function StorePage({ products, cart, addToCart, removeFromCart, updateQty, onContactClick }) {
   const [showCart, setShowCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [activeCategory, setActiveCategory] = useState('الكل');
+  const [addedId, setAddedId] = useState(null);
 
   const categories = ['الكل', ...new Set(products.map(p => p.category))];
   const filtered = activeCategory === 'الكل' ? products : products.filter(p => p.category === activeCategory);
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setAddedId(product.id);
+    setTimeout(() => setAddedId(null), 1500);
+  };
 
   const whatsappOrder = () => {
     if (cart.length === 0) return;
@@ -57,7 +64,6 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, o
             <div style={{ color: '#4a7c5a', fontSize: '10px', letterSpacing: '3px' }}>MENS FASHION</div>
           </div>
         </div>
-
         <button
           onClick={() => setShowCart(true)}
           style={{
@@ -168,17 +174,19 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, o
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ color: '#7ab88a', fontWeight: '700', fontSize: '18px' }}>{product.price} جنيه</span>
                 <button
-                  onClick={() => addToCart(product)}
+                  onClick={() => handleAddToCart(product)}
                   style={{
-                    background: '#1e4d2b',
+                    background: addedId === product.id ? '#2d7a3a' : '#1e4d2b',
                     border: 'none',
                     borderRadius: '6px',
                     color: '#f0ebe0',
                     padding: '8px 16px',
                     fontWeight: '600',
-                    fontSize: '13px'
+                    fontSize: '13px',
+                    transition: 'all 0.3s',
+                    minWidth: '90px'
                   }}
-                >+ السلة</button>
+                >{addedId === product.id ? '✅ تمت!' : '+ السلة'}</button>
               </div>
             </div>
           </div>
@@ -228,7 +236,6 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, o
               fontSize: '15px', cursor: 'pointer'
             }}
           >📩 تواصل معنا</button>
-         
         </div>
       </footer>
 
@@ -259,10 +266,30 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, o
                 }}>
                   <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '6px' }} />
                   <div style={{ flex: 1 }}>
-                    <p style={{ color: '#f0ebe0', fontSize: '14px', marginBottom: '4px' }}>{item.name}</p>
-                    <p style={{ color: '#7ab88a', fontSize: '13px' }}>{item.price * item.qty} جنيه × {item.qty}</p>
+                    <p style={{ color: '#f0ebe0', fontSize: '14px', marginBottom: '8px' }}>{item.name}</p>
+                    <p style={{ color: '#7ab88a', fontSize: '13px', marginBottom: '8px' }}>{item.price} جنيه</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <button
+                        onClick={() => updateQty(item.id, item.qty - 1)}
+                        style={{
+                          background: '#2a3a2a', border: 'none', borderRadius: '4px',
+                          color: '#f0ebe0', width: '28px', height: '28px',
+                          fontSize: '16px', fontWeight: '700'
+                        }}
+                      >-</button>
+                      <span style={{ color: '#f0ebe0', fontWeight: '700', minWidth: '20px', textAlign: 'center' }}>{item.qty}</span>
+                      <button
+                        onClick={() => updateQty(item.id, item.qty + 1)}
+                        style={{
+                          background: '#1e4d2b', border: 'none', borderRadius: '4px',
+                          color: '#f0ebe0', width: '28px', height: '28px',
+                          fontSize: '16px', fontWeight: '700'
+                        }}
+                      >+</button>
+                      <span style={{ color: '#7ab88a', fontSize: '13px', marginRight: 'auto' }}>{item.price * item.qty} جنيه</span>
+                      <button onClick={() => removeFromCart(item.id)} style={{ background: 'none', border: 'none', color: '#e74c3c', fontSize: '16px' }}>🗑</button>
+                    </div>
                   </div>
-                  <button onClick={() => removeFromCart(item.id)} style={{ background: 'none', border: 'none', color: '#e74c3c', fontSize: '18px' }}>🗑</button>
                 </div>
               ))}
             </div>
@@ -303,7 +330,7 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, o
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ color: '#7ab88a', fontSize: '22px', fontWeight: '700' }}>{selectedProduct.price} جنيه</span>
                 <button
-                  onClick={() => { addToCart(selectedProduct); setSelectedProduct(null); }}
+                  onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
                   style={{ background: '#1e4d2b', border: 'none', borderRadius: '8px', color: '#f0ebe0', padding: '10px 24px', fontWeight: '700' }}
                 >أضف للسلة</button>
               </div>

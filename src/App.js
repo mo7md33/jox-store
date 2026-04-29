@@ -3,7 +3,7 @@ import StorePage from './StorePage';
 import AdminPage from './AdminPage';
 import ContactPage from './ContactPage';
 
-const ADMIN_PASSWORD = 'mamama@01040113534';
+const ADMIN_PASSWORD = '01153473807';
 
 const initialProducts = [
   { id: 1, name: 'قميص كلاسيك أبيض', price: 450, category: 'قمصان', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400', description: 'قميص رجالي كلاسيك فاخر' },
@@ -27,7 +27,6 @@ function App() {
     localStorage.setItem('jox_products', JSON.stringify(products));
   }, [products]);
 
-  // الرابط السري للأدمن
   useEffect(() => {
     const checkHash = () => {
       if (window.location.hash === '#admin') {
@@ -51,6 +50,14 @@ function App() {
 
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
+  };
+
+  const updateQty = (id, qty) => {
+    if (qty <= 0) {
+      setCart(prev => prev.filter(item => item.id !== id));
+    } else {
+      setCart(prev => prev.map(item => item.id === id ? { ...item, qty } : item));
+    }
   };
 
   const adminLogin = (password) => {
@@ -86,6 +93,7 @@ function App() {
           cart={cart}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
+          updateQty={updateQty}
           onContactClick={() => setShowContact(true)}
         />
       ) : page === 'adminLogin' ? (
