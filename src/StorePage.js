@@ -30,7 +30,6 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [activeCategory, setActiveCategory] = useState('الكل');
-  const [addedId, setAddedId] = useState(null);
   const [sizeError, setSizeError] = useState(false);
 
   const categories = ['الكل', ...new Set(products.map(p => p.category))];
@@ -40,8 +39,7 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
 
   const getSizes = (category) => {
     if (!category) return null;
-    const trimmed = category.trim();
-    return SIZES[trimmed] || null;
+    return SIZES[category.trim()] || null;
   };
 
   const handleAddToCart = (product, size = null) => {
@@ -51,10 +49,8 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       return;
     }
     addToCart({ ...product, size });
-    setAddedId(product.id);
     setSelectedSize(null);
     setSizeError(false);
-    setTimeout(() => setAddedId(null), 1500);
   };
 
   const whatsappOrder = () => {
@@ -202,14 +198,9 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                 <button
                   onClick={() => { setSelectedProduct(product); setSelectedSize(null); setSizeError(false); }}
                   style={{
-                    background: '#1e4d2b',
-                    border: 'none',
-                    borderRadius: '6px',
-                    color: '#f0ebe0',
-                    padding: '8px 16px',
-                    fontWeight: '600',
-                    fontSize: '13px',
-                    minWidth: '90px'
+                    background: '#1e4d2b', border: 'none', borderRadius: '6px',
+                    color: '#f0ebe0', padding: '8px 16px',
+                    fontWeight: '600', fontSize: '13px', minWidth: '90px'
                   }}
                 >اختر مقاس</button>
               </div>
@@ -220,9 +211,7 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
 
       {/* Footer */}
       <footer style={{
-        background: '#1e4d2b',
-        padding: '40px 24px',
-        textAlign: 'center'
+        background: '#1e4d2b', padding: '40px 24px', textAlign: 'center'
       }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
           <JoxLogo size={60} />
@@ -333,15 +322,12 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                         key={size}
                         onClick={() => { setSelectedSize(size); setSizeError(false); }}
                         style={{
-                          padding: '8px 14px',
-                          borderRadius: '6px',
+                          padding: '8px 14px', borderRadius: '6px',
                           border: '2px solid',
                           borderColor: selectedSize === size ? '#1e4d2b' : '#e0d9cc',
                           background: selectedSize === size ? '#1e4d2b' : '#ffffff',
                           color: selectedSize === size ? '#f0ebe0' : '#1a1a1a',
-                          fontWeight: '600',
-                          fontSize: '14px',
-                          transition: 'all 0.2s'
+                          fontWeight: '600', fontSize: '14px', transition: 'all 0.2s'
                         }}
                       >{size}</button>
                     ))}
@@ -355,10 +341,7 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                 <button
                   onClick={() => {
                     const sizes = getSizes(selectedProduct.category);
-                    if (sizes && !selectedSize) {
-                      setSizeError(true);
-                      return;
-                    }
+                    if (sizes && !selectedSize) { setSizeError(true); return; }
                     handleAddToCart(selectedProduct, selectedSize);
                     setSelectedProduct(null);
                   }}
