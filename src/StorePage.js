@@ -38,7 +38,11 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-  const getSizes = (category) => SIZES[category] || null;
+  const getSizes = (category) => {
+    if (!category) return null;
+    const trimmed = category.trim();
+    return SIZES[trimmed] || null;
+  };
 
   const handleAddToCart = (product, size = null) => {
     const sizes = getSizes(product.category);
@@ -217,7 +221,6 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       {/* Footer */}
       <footer style={{
         background: '#1e4d2b',
-        borderTop: '2px solid #1e4d2b',
         padding: '40px 24px',
         textAlign: 'center'
       }}>
@@ -321,7 +324,6 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               <h2 style={{ fontFamily: 'Georgia, serif', color: '#1a1a1a', marginBottom: '8px' }}>{selectedProduct.name}</h2>
               <p style={{ color: '#555', marginBottom: '16px' }}>{selectedProduct.description}</p>
 
-              {/* Sizes */}
               {getSizes(selectedProduct.category) && (
                 <div style={{ marginBottom: '16px' }}>
                   <p style={{ color: '#1e4d2b', fontWeight: '600', marginBottom: '10px', fontSize: '14px' }}>اختر المقاس:</p>
@@ -352,8 +354,12 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                 <span style={{ color: '#1e4d2b', fontSize: '22px', fontWeight: '700' }}>{selectedProduct.price} جنيه</span>
                 <button
                   onClick={() => {
+                    const sizes = getSizes(selectedProduct.category);
+                    if (sizes && !selectedSize) {
+                      setSizeError(true);
+                      return;
+                    }
                     handleAddToCart(selectedProduct, selectedSize);
-                    if (getSizes(selectedProduct.category) && !selectedSize) return;
                     setSelectedProduct(null);
                   }}
                   style={{ background: '#1e4d2b', border: 'none', borderRadius: '8px', color: '#f0ebe0', padding: '10px 24px', fontWeight: '700' }}
