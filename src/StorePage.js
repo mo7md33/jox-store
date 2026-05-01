@@ -121,7 +121,7 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
         <JoxLogo size={90} />
         <div style={{ marginTop: '20px', color: '#4a7c5a', fontSize: '12px', letterSpacing: '4px', marginBottom: '12px' }}>PREMIUM COLLECTION</div>
         <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '42px', color: '#1e4d2b', marginBottom: '12px', lineHeight: '1.2' }}>
-          أناقة لا حدود لها
+          هنا هنميزك يعني هنميزك 😉😄
         </h1>
         <p style={{ color: '#555', fontSize: '15px', marginBottom: '24px' }}>اختر من أرقى تشكيلات الملابس الرجالية</p>
 
