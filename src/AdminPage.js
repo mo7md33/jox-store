@@ -55,9 +55,8 @@ export default function AdminPage({
   };
 
   return (
-    <div
-      style={{ background: COLORS.bg, minHeight: "100vh", direction: "rtl" }}
-    >
+    <div style={{ background: COLORS.bg, minHeight: "100vh", direction: "rtl" }}>
+      
       {/* HEADER */}
       <header
         style={{
@@ -86,6 +85,8 @@ export default function AdminPage({
       </header>
 
       <div style={{ maxWidth: "900px", margin: "auto", padding: "30px" }}>
+        
+        {/* SUCCESS */}
         {successMsg && (
           <div
             style={{
@@ -161,20 +162,23 @@ export default function AdminPage({
               style={inputStyle}
             />
 
-            {/* IMAGE */}
+            {/* IMAGE FILE */}
             <input
               type="file"
               onChange={handleImageFile}
               style={{ marginBottom: "10px" }}
             />
 
+            {/* PREVIEW */}
             {imagePreview && (
               <img
                 src={imagePreview}
+                alt="preview"
                 style={{ width: "120px", marginBottom: "10px" }}
               />
             )}
 
+            {/* IMAGE URL */}
             <input
               placeholder="او لينك صورة"
               value={form.image}
@@ -220,6 +224,7 @@ export default function AdminPage({
             >
               <img
                 src={p.image}
+                alt={p.name}
                 style={{ width: "100%", height: "180px", objectFit: "cover" }}
               />
 
