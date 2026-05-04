@@ -243,73 +243,86 @@ export default function StorePage({
         </button>
       </header>
 
-      {/* Hero */}
-      <div
-        style={{
-          textAlign: "center",
-          padding: "64px 24px 42px",
-          borderBottom: `1px solid ${COLORS.border}`,
-          background: COLORS.white,
-        }}
-      >
-        <JoxLogo size={90} />
+     {/* 🔥 Premium Banner */}
+<div
+  style={{
+    textAlign: "center",
+    padding: "70px 24px",
+    borderBottom: `1px solid ${COLORS.border}`,
+    background: "linear-gradient(135deg,#ffffff,#F8F6F1,#EDE8DF)",
+  }}
+>
+  <JoxLogo size={90} />
 
-        <div
-          style={{
-            marginTop: "20px",
-            color: COLORS.accent,
-            fontSize: "12px",
-            letterSpacing: "4px",
-            marginBottom: "12px",
-            fontWeight: "700",
-          }}
-        >
-          PREMIUM COLLECTION
-        </div>
+  <div
+    style={{
+      marginTop: "20px",
+      color: COLORS.accent,
+      fontSize: "12px",
+      letterSpacing: "4px",
+      marginBottom: "12px",
+      fontWeight: "800",
+    }}
+  >
+    PREMIUM MEN'S WEAR
+  </div>
 
-        <h1
-          style={{
-            fontFamily: "Georgia, serif",
-            fontSize: "42px",
-            color: COLORS.primary,
-            marginBottom: "12px",
-            lineHeight: "1.2",
-          }}
-        >
-          هنا هنميزك يعني هنميزك 😉😄
-        </h1>
+  <h1
+    style={{
+      fontFamily: "Georgia, serif",
+      fontSize: "46px",
+      color: COLORS.primary,
+      marginBottom: "12px",
+    }}
+  >
+    JOX Premium Wear
+  </h1>
 
-        <p
-          style={{
-            color: COLORS.muted,
-            fontSize: "15px",
-            marginBottom: "24px",
-          }}
-        >
-          اختر من أرقى تشكيلات الملابس الرجالية
-        </p>
+  <p
+    style={{
+      color: COLORS.muted,
+      fontSize: "16px",
+      marginBottom: "26px",
+    }}
+  >
+    ستايل رجالي راقي يميزك
+  </p>
 
-        <div style={{ maxWidth: "420px", margin: "0 auto" }}>
-          <input
-            type="text"
-            placeholder="🔍 ابحث عن منتج..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "14px 22px",
-              borderRadius: "999px",
-              border: `1px solid ${COLORS.border}`,
-              background: COLORS.bg,
-              color: COLORS.text,
-              fontSize: "15px",
-              outline: "none",
-              textAlign: "right",
-              boxShadow: "0 6px 20px rgba(0,0,0,0.04)",
-            }}
-          />
-        </div>
-      </div>
+  <button
+    onClick={() => {
+      document
+        .getElementById("products-section")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }}
+    style={{
+      background: COLORS.primary,
+      color: COLORS.white,
+      padding: "13px 34px",
+      borderRadius: "999px",
+      border: "none",
+      fontWeight: "800",
+      cursor: "pointer",
+    }}
+  >
+    تسوق الآن
+  </button>
+
+  <div style={{ maxWidth: "420px", margin: "28px auto 0" }}>
+    <input
+      type="text"
+      placeholder="🔍 ابحث عن منتج..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      style={{
+        width: "100%",
+        padding: "14px 22px",
+        borderRadius: "999px",
+        border: `1px solid ${COLORS.border}`,
+        background: COLORS.white,
+      }}
+    />
+  </div>
+</div>
 
       {/* Categories */}
       <div
