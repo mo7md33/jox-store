@@ -7,11 +7,11 @@
 
 /* ROOT COLORS */
 :root {
-  --bg: #F8F6F1;
-  --primary: #1B3325;
-  --border: #E5E0D8;
-  --accent: #C6A56B;
-  --text: #1A1A1A;
+  --bg: #f8f6f1;
+  --primary: #1b3325;
+  --border: #e5e0d8;
+  --accent: #c6a56b;
+  --text: #1a1a1a;
   --muted: #666;
   --white: #ffffff;
 }
@@ -20,14 +20,16 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 /* TYPOGRAPHY */
-h1, h2, h3 {
-  font-family: 'Georgia', serif;
+h1,
+h2,
+h3 {
+  font-family: "Georgia", serif;
   letter-spacing: 0.5px;
 }
 
