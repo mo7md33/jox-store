@@ -4,6 +4,14 @@ import AdminPage from './AdminPage';
 import ContactPage from './ContactPage';
 import { supabase } from './supabaseClient';
 
+const COLORS = {
+  bg: '#F8F6F1',
+  primary: '#1B3325',
+  border: '#E5E0D8',
+  accent: '#C6A56B',
+  text: '#1A1A1A'
+};
+
 function App() {
   const [page, setPage] = useState('store');
   const [showContact, setShowContact] = useState(false);
@@ -91,25 +99,42 @@ function App() {
   if (loading) {
     return (
       <div style={{
-        minHeight: '100vh', background: '#f0ebe0',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexDirection: 'column', gap: '16px'
+        minHeight: '100vh',
+        background: COLORS.bg,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        gap: '16px'
       }}>
         <div style={{
-          width: '50px', height: '50px',
-          border: '3px solid #e0d9cc',
-          borderTop: '3px solid #1e4d2b',
+          width: '50px',
+          height: '50px',
+          border: `3px solid ${COLORS.border}`,
+          borderTop: `3px solid ${COLORS.primary}`,
           borderRadius: '50%',
           animation: 'spin 1s linear infinite'
         }} />
-        <p style={{ color: '#1e4d2b', fontFamily: 'Georgia, serif', fontSize: '18px' }}>JOX STORE</p>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <p style={{
+          color: COLORS.primary,
+          fontFamily: 'Georgia, serif',
+          fontSize: '20px',
+          letterSpacing: '2px'
+        }}>
+          JOX STORE
+        </p>
+
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     );
   }
 
   return (
-    <div>
+    <div style={{ background: COLORS.bg, minHeight: '100vh' }}>
       {showContact ? (
         <ContactPage onBack={() => setShowContact(false)} />
       ) : page === 'store' ? (
@@ -147,25 +172,39 @@ function AdminLogin({ onLogin, onBack }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#f0ebe0',
+      background: COLORS.bg,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'Raleway, sans-serif'
+      justifyContent: 'center'
     }}>
       <div style={{
         background: '#ffffff',
-        border: '2px solid #1e4d2b22',
-        borderRadius: '12px',
+        border: `1px solid ${COLORS.border}`,
+        borderRadius: '16px',
         padding: '40px',
         width: '100%',
         maxWidth: '400px',
         textAlign: 'center',
-        boxShadow: '0 4px 20px #1e4d2b11'
+        boxShadow: '0 8px 30px rgba(0,0,0,0.05)'
       }}>
-        <div style={{ fontSize: '40px', marginBottom: '10px' }}>🔐</div>
-        <h2 style={{ fontFamily: 'Georgia, serif', color: '#1e4d2b', marginBottom: '8px' }}>Admin Panel</h2>
-        <p style={{ color: '#555', marginBottom: '30px', fontSize: '14px' }}>JOX STORE</p>
+        <div style={{ fontSize: '36px', marginBottom: '10px' }}>🔐</div>
+
+        <h2 style={{
+          fontFamily: 'Georgia, serif',
+          color: COLORS.primary,
+          marginBottom: '6px'
+        }}>
+          Admin Panel
+        </h2>
+
+        <p style={{
+          color: '#777',
+          marginBottom: '30px',
+          fontSize: '13px'
+        }}>
+          JOX STORE
+        </p>
+
         <input
           type="password"
           placeholder="ادخل الباسورد"
@@ -174,42 +213,53 @@ function AdminLogin({ onLogin, onBack }) {
           onKeyDown={e => { if (e.key === 'Enter') handleSubmit(); }}
           style={{
             width: '100%',
-            padding: '12px 16px',
-            background: '#f0ebe0',
-            border: '2px solid #e0d9cc',
-            borderRadius: '8px',
-            color: '#1a1a1a',
-            fontSize: '16px',
+            padding: '14px',
+            background: COLORS.bg,
+            border: `1px solid ${COLORS.border}`,
+            borderRadius: '10px',
+            fontSize: '15px',
             marginBottom: '12px',
-            outline: 'none',
             textAlign: 'center'
           }}
         />
-        {error && <p style={{ color: '#e74c3c', fontSize: '14px', marginBottom: '12px' }}>{error}</p>}
+
+        {error && (
+          <p style={{ color: '#e74c3c', fontSize: '13px', marginBottom: '12px' }}>
+            {error}
+          </p>
+        )}
+
         <button
           onClick={handleSubmit}
           style={{
             width: '100%',
-            padding: '12px',
-            background: '#1e4d2b',
+            padding: '14px',
+            background: COLORS.primary,
             border: 'none',
-            borderRadius: '8px',
-            color: '#f0ebe0',
+            borderRadius: '999px',
+            color: '#fff',
             fontWeight: '600',
-            fontSize: '16px',
-            marginBottom: '12px'
+            fontSize: '15px',
+            marginBottom: '10px',
+            cursor: 'pointer'
           }}
-        >دخول</button>
+        >
+          دخول
+        </button>
+
         <button
           onClick={onBack}
           style={{
             background: 'none',
             border: 'none',
-            color: '#555',
-            fontSize: '14px',
-            textDecoration: 'underline'
+            color: '#666',
+            fontSize: '13px',
+            textDecoration: 'underline',
+            cursor: 'pointer'
           }}
-        >رجوع للمتجر</button>
+        >
+          رجوع للمتجر
+        </button>
       </div>
     </div>
   );

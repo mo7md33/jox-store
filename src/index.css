@@ -1,56 +1,98 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap");
-
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ROOT COLORS */
 :root {
-  --green: #1e4d2b;
-  --green-light: #4a7c5a;
-  --cream: #f0ebe0;
-  --cream-dark: #e0d9cc;
+  --bg: #F8F6F1;
+  --primary: #1B3325;
+  --border: #E5E0D8;
+  --accent: #C6A56B;
+  --text: #1A1A1A;
+  --muted: #666;
   --white: #ffffff;
-  --text-dark: #1a1a1a;
-  --text-muted: #555;
 }
 
+/* BODY */
 body {
-  font-family: "Raleway", sans-serif;
-  background-color: var(--cream);
-  color: var(--text-dark);
-  min-height: 100vh;
-  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* TYPOGRAPHY */
 h1, h2, h3 {
-  font-family: "Playfair Display", serif;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.5px;
 }
 
+/* BUTTON */
 button {
+  font-family: inherit;
   cursor: pointer;
-  font-family: "Raleway", sans-serif;
+  transition: all 0.25s ease;
+  border: none;
 }
 
-input, textarea, select {
-  font-family: "Raleway", sans-serif;
+/* INPUT */
+input,
+textarea {
+  font-family: inherit;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.2s;
 }
 
+input:focus,
+textarea:focus {
+  border-color: var(--primary);
+}
+
+/* LINKS */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* IMAGE */
 img {
   max-width: 100%;
   display: block;
 }
 
+/* SCROLLBAR (شكل شيك) */
 ::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cream-dark);
+  width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--green);
-  border-radius: 3px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+/* ANIMATIONS */
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
