@@ -9,6 +9,8 @@ const COLORS = {
   white: "#FFFFFF",
 };
 
+const CATEGORIES = ["قمصان", "تيشرت", "جاكيت", "بناطيل", "كوتشي"];
+
 export default function AdminPage({
   products,
   addProduct,
@@ -19,6 +21,7 @@ export default function AdminPage({
   const [form, setForm] = useState({
     name: "",
     price: "",
+    old_price: "",
     category: "",
     image: "",
     description: "",
@@ -39,14 +42,25 @@ export default function AdminPage({
   };
 
   const handleSubmit = () => {
-    if (!form.name || !form.price || !form.image) {
+    if (!form.name || !form.price || !form.category || !form.image) {
       alert("من فضلك ادخل البيانات المطلوبة");
       return;
     }
 
-    addProduct({ ...form, price: Number(form.price) });
+    addProduct({
+      ...form,
+      price: Number(form.price),
+      old_price: form.old_price ? Number(form.old_price) : null,
+    });
 
-    setForm({ name: "", price: "", category: "", image: "", description: "" });
+    setForm({
+      name: "",
+      price: "",
+      old_price: "",
+      category: "",
+      image: "",
+      description: "",
+    });
     setImagePreview("");
     setShowAddForm(false);
 
@@ -56,7 +70,6 @@ export default function AdminPage({
 
   return (
     <div style={{ background: COLORS.bg, minHeight: "100vh", direction: "rtl" }}>
-      
       {/* HEADER */}
       <header
         style={{
@@ -85,7 +98,6 @@ export default function AdminPage({
       </header>
 
       <div style={{ maxWidth: "900px", margin: "auto", padding: "30px" }}>
-        
         {/* SUCCESS */}
         {successMsg && (
           <div
@@ -112,9 +124,10 @@ export default function AdminPage({
             border: "none",
             padding: "10px 20px",
             borderRadius: "999px",
+            cursor: "pointer",
           }}
         >
-          + إضافة منتج
+          {showAddForm ? "إلغاء" : "+ إضافة منتج"}
         </button>
 
         {/* FORM */}
@@ -136,7 +149,8 @@ export default function AdminPage({
             />
 
             <input
-              placeholder="السعر"
+              placeholder="السعر بعد الخصم / السعر الحالي"
+              type="number"
               value={form.price}
               onChange={(e) =>
                 setForm((p) => ({ ...p, price: e.target.value }))
@@ -145,13 +159,29 @@ export default function AdminPage({
             />
 
             <input
-              placeholder="الفئة"
+              placeholder="السعر قبل الخصم (اختياري)"
+              type="number"
+              value={form.old_price}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, old_price: e.target.value }))
+              }
+              style={inputStyle}
+            />
+
+            <select
               value={form.category}
               onChange={(e) =>
                 setForm((p) => ({ ...p, category: e.target.value }))
               }
               style={inputStyle}
-            />
+            >
+              <option value="">اختار الفئة</option>
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
 
             <input
               placeholder="وصف المنتج"
@@ -165,6 +195,7 @@ export default function AdminPage({
             {/* IMAGE FILE */}
             <input
               type="file"
+              accept="image/*"
               onChange={handleImageFile}
               style={{ marginBottom: "10px" }}
             />
@@ -182,9 +213,10 @@ export default function AdminPage({
             <input
               placeholder="او لينك صورة"
               value={form.image}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, image: e.target.value }))
-              }
+              onChange={(e) => {
+                setForm((p) => ({ ...p, image: e.target.value }));
+                setImagePreview("");
+              }}
               style={inputStyle}
             />
 
@@ -197,6 +229,7 @@ export default function AdminPage({
                 padding: "10px",
                 width: "100%",
                 borderRadius: "999px",
+                cursor: "pointer",
               }}
             >
               حفظ المنتج
@@ -230,7 +263,31 @@ export default function AdminPage({
 
               <div style={{ padding: "10px" }}>
                 <h4>{p.name}</h4>
-                <p style={{ color: COLORS.primary }}>{p.price} جنيه</p>
+
+                <div style={{ marginBottom: "10px" }}>
+                  {p.old_price && (
+                    <span
+                      style={{
+                        color: "#c0392b",
+                        textDecoration: "line-through",
+                        fontSize: "13px",
+                        marginLeft: "8px",
+                      }}
+                    >
+                      {p.old_price} جنيه
+                    </span>
+                  )}
+
+                  <span
+                    style={{
+                      color: COLORS.primary,
+                      fontWeight: "800",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {p.price} جنيه
+                  </span>
+                </div>
 
                 <button
                   onClick={() => deleteProduct(p.id)}
@@ -241,6 +298,7 @@ export default function AdminPage({
                     width: "100%",
                     borderRadius: "6px",
                     color: "#c0392b",
+                    cursor: "pointer",
                   }}
                 >
                   حذف

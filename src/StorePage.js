@@ -12,9 +12,10 @@ const COLORS = {
 };
 
 const STORE_INFO = {
-  phone: "01101708750",
+  phone: "01150565044",
   location: "العياط - الجيزة",
   instagram: "https://www.instagram.com/jox._eg",
+  instagramDM: "https://ig.me/m/jox._eg",
   tiktok: "https://www.tiktok.com/@jox_eg2",
 };
 
@@ -28,12 +29,7 @@ const SIZES = {
 
 function JoxLogo({ size = 50 }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={size} height={size} viewBox="0 0 100 100">
       <circle
         cx="50"
         cy="50"
@@ -99,6 +95,19 @@ export default function StorePage({
     return SIZES[category.trim()] || null;
   };
 
+  const hasDiscount = (product) => {
+    return product.old_price && Number(product.old_price) > Number(product.price);
+  };
+
+  const discountPercent = (product) => {
+    if (!hasDiscount(product)) return null;
+    return Math.round(
+      ((Number(product.old_price) - Number(product.price)) /
+        Number(product.old_price)) *
+        100
+    );
+  };
+
   const handleAddToCart = (product, size = null) => {
     const sizes = getSizes(product.category);
     if (sizes && !size) {
@@ -116,15 +125,24 @@ export default function StorePage({
     const items = cart
       .map(
         (item) =>
-          `• ${item.name}${item.size ? " - مقاس " + item.size : ""} × ${item.qty} = ${item.price * item.qty} جنيه\n  📸 ${item.image}`,
+          `• ${item.name}${item.size ? " - مقاس " + item.size : ""} × ${
+            item.qty
+          } = ${item.price * item.qty} جنيه\n  📸 ${item.image}`
       )
       .join("\n");
 
     const msg = `مرحباً JOX STORE 👋\nعايز أطلب:\n${items}\n\nالإجمالي: ${totalPrice} جنيه`;
+
     window.open(
-      `https://wa.me/2${STORE_INFO.phone}?text=${encodeURIComponent(msg)}`,
-      "_blank",
+      `https://wa.me/20${STORE_INFO.phone.slice(1)}?text=${encodeURIComponent(
+        msg
+      )}`,
+      "_blank"
     );
+  };
+
+  const instagramOrder = () => {
+    window.open(STORE_INFO.instagramDM, "_blank");
   };
 
   return (
@@ -243,7 +261,7 @@ export default function StorePage({
         </button>
       </header>
 
-      {/* 🔥 Premium Banner */}
+      {/* Premium Banner */}
       <div
         style={{
           textAlign: "center",
@@ -319,6 +337,11 @@ export default function StorePage({
               borderRadius: "999px",
               border: `1px solid ${COLORS.border}`,
               background: COLORS.white,
+              color: COLORS.text,
+              fontSize: "15px",
+              outline: "none",
+              textAlign: "right",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
             }}
           />
         </div>
@@ -373,6 +396,7 @@ export default function StorePage({
 
       {/* Products Grid */}
       <div
+        id="products-section"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
@@ -415,7 +439,8 @@ export default function StorePage({
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 5px 18px rgba(0,0,0,0.04)";
+                e.currentTarget.style.boxShadow =
+                  "0 5px 18px rgba(0,0,0,0.04)";
                 e.currentTarget.style.borderColor = COLORS.border;
               }}
             >
@@ -435,6 +460,8 @@ export default function StorePage({
                 <img
                   src={product.image}
                   alt={product.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     position: "absolute",
                     top: 0,
@@ -468,6 +495,25 @@ export default function StorePage({
                 >
                   {product.category}
                 </div>
+
+                {hasDiscount(product) && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      left: "12px",
+                      background: "#e74c3c",
+                      color: "#fff",
+                      padding: "5px 12px",
+                      borderRadius: "999px",
+                      fontSize: "11px",
+                      fontWeight: "800",
+                      letterSpacing: "1px",
+                    }}
+                  >
+                    خصم {discountPercent(product)}%
+                  </div>
+                )}
               </div>
 
               <div style={{ padding: "18px" }}>
@@ -501,15 +547,30 @@ export default function StorePage({
                     gap: "10px",
                   }}
                 >
-                  <span
-                    style={{
-                      color: COLORS.primary,
-                      fontWeight: "800",
-                      fontSize: "18px",
-                    }}
-                  >
-                    {product.price} جنيه
-                  </span>
+                  <div>
+                    {hasDiscount(product) && (
+                      <span
+                        style={{
+                          color: "#c0392b",
+                          textDecoration: "line-through",
+                          fontSize: "13px",
+                          marginLeft: "8px",
+                        }}
+                      >
+                        {product.old_price} جنيه
+                      </span>
+                    )}
+
+                    <span
+                      style={{
+                        color: COLORS.primary,
+                        fontWeight: "800",
+                        fontSize: "18px",
+                      }}
+                    >
+                      {product.price} جنيه
+                    </span>
+                  </div>
 
                   <button
                     onClick={() => {
@@ -751,6 +812,8 @@ export default function StorePage({
                     <img
                       src={item.image}
                       alt={item.name}
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         width: "60px",
                         height: "60px",
@@ -876,22 +939,41 @@ export default function StorePage({
                   </span>
                 </div>
 
-                <button
-                  onClick={whatsappOrder}
-                  style={{
-                    width: "100%",
-                    padding: "14px",
-                    background: "#25D366",
-                    border: "none",
-                    borderRadius: "999px",
-                    color: "#fff",
-                    fontWeight: "800",
-                    fontSize: "16px",
-                    cursor: "pointer",
-                  }}
-                >
-                  📱 اطلب عبر WhatsApp
-                </button>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button
+                    onClick={whatsappOrder}
+                    style={{
+                      flex: 1,
+                      padding: "14px",
+                      background: "#25D366",
+                      border: "none",
+                      borderRadius: "999px",
+                      color: "#fff",
+                      fontWeight: "800",
+                      fontSize: "15px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    📱 واتساب
+                  </button>
+
+                  <button
+                    onClick={instagramOrder}
+                    style={{
+                      flex: 1,
+                      padding: "14px",
+                      background: "#E1306C",
+                      border: "none",
+                      borderRadius: "999px",
+                      color: "#fff",
+                      fontWeight: "800",
+                      fontSize: "15px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    📸 انستجرام
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -939,6 +1021,7 @@ export default function StorePage({
             <img
               src={selectedProduct.image}
               alt={selectedProduct.name}
+              decoding="async"
               style={{
                 width: "100%",
                 height: "280px",
@@ -993,7 +1076,11 @@ export default function StorePage({
                         style={{
                           padding: "9px 15px",
                           borderRadius: "999px",
-                          border: `1px solid ${selectedSize === size ? COLORS.primary : COLORS.border}`,
+                          border: `1px solid ${
+                            selectedSize === size
+                              ? COLORS.primary
+                              : COLORS.border
+                          }`,
                           background:
                             selectedSize === size
                               ? COLORS.primary
@@ -1033,15 +1120,30 @@ export default function StorePage({
                   gap: "14px",
                 }}
               >
-                <span
-                  style={{
-                    color: COLORS.primary,
-                    fontSize: "22px",
-                    fontWeight: "800",
-                  }}
-                >
-                  {selectedProduct.price} جنيه
-                </span>
+                <div>
+                  {hasDiscount(selectedProduct) && (
+                    <span
+                      style={{
+                        color: "#c0392b",
+                        textDecoration: "line-through",
+                        fontSize: "14px",
+                        marginLeft: "8px",
+                      }}
+                    >
+                      {selectedProduct.old_price} جنيه
+                    </span>
+                  )}
+
+                  <span
+                    style={{
+                      color: COLORS.primary,
+                      fontSize: "22px",
+                      fontWeight: "800",
+                    }}
+                  >
+                    {selectedProduct.price} جنيه
+                  </span>
+                </div>
 
                 <button
                   onClick={() => {
