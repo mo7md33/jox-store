@@ -11,23 +11,36 @@ const COLORS = {
 
 const CATEGORIES = ["قمصان", "تيشرت", "جاكيت", "بناطيل", "كوتشي"];
 
+const emptyForm = {
+  name: "",
+  price: "",
+  old_price: "",
+  category: "",
+  image: "",
+  description: "",
+};
+
 export default function AdminPage({
   products,
   addProduct,
+  updateProduct,
   deleteProduct,
   onLogout,
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    price: "",
-    old_price: "",
-    category: "",
-    image: "",
-    description: "",
-  });
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [form, setForm] = useState(emptyForm);
   const [imagePreview, setImagePreview] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  const isEditing = Boolean(editingProductId);
+
+  const resetForm = () => {
+    setForm(emptyForm);
+    setImagePreview("");
+    setEditingProductId(null);
+    setShowAddForm(false);
+  };
 
   const handleImageFile = (e) => {
     const file = e.target.files[0];
@@ -41,36 +54,64 @@ export default function AdminPage({
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = () => {
+  const startEdit = (product) => {
+    setEditingProductId(product.id);
+    setShowAddForm(true);
+    setImagePreview("");
+
+    setForm({
+      name: product.name || "",
+      price: product.price || "",
+      old_price: product.old_price || "",
+      category: product.category || "",
+      image: product.image || "",
+      description: product.description || "",
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSubmit = async () => {
     if (!form.name || !form.price || !form.category || !form.image) {
       alert("من فضلك ادخل البيانات المطلوبة");
       return;
     }
 
-    addProduct({
-      ...form,
+    const productPayload = {
+      name: form.name,
       price: Number(form.price),
       old_price: form.old_price ? Number(form.old_price) : null,
-    });
+      category: form.category,
+      image: form.image,
+      description: form.description,
+    };
 
-    setForm({
-      name: "",
-      price: "",
-      old_price: "",
-      category: "",
-      image: "",
-      description: "",
-    });
-    setImagePreview("");
-    setShowAddForm(false);
+    if (isEditing) {
+      const { error } = await updateProduct(editingProductId, productPayload);
 
-    setSuccessMsg("تم إضافة المنتج بنجاح ✔");
+      if (error) {
+        alert("حصل خطأ أثناء تعديل المنتج");
+        return;
+      }
+
+      setSuccessMsg("تم تعديل المنتج بنجاح ✔");
+    } else {
+      const { error } = await addProduct(productPayload);
+
+      if (error) {
+        alert("حصل خطأ أثناء إضافة المنتج");
+        return;
+      }
+
+      setSuccessMsg("تم إضافة المنتج بنجاح ✔");
+    }
+
+    resetForm();
     setTimeout(() => setSuccessMsg(""), 3000);
   };
 
   return (
     <div style={{ background: COLORS.bg, minHeight: "100vh", direction: "rtl" }}>
-      {/* HEADER */}
       <header
         style={{
           display: "flex",
@@ -98,7 +139,6 @@ export default function AdminPage({
       </header>
 
       <div style={{ maxWidth: "900px", margin: "auto", padding: "30px" }}>
-        {/* SUCCESS */}
         {successMsg && (
           <div
             style={{
@@ -114,9 +154,14 @@ export default function AdminPage({
           </div>
         )}
 
-        {/* ADD BUTTON */}
         <button
-          onClick={() => setShowAddForm(!showAddForm)}
+          onClick={() => {
+            if (showAddForm) {
+              resetForm();
+            } else {
+              setShowAddForm(true);
+            }
+          }}
           style={{
             marginBottom: "20px",
             background: COLORS.primary,
@@ -130,7 +175,6 @@ export default function AdminPage({
           {showAddForm ? "إلغاء" : "+ إضافة منتج"}
         </button>
 
-        {/* FORM */}
         {showAddForm && (
           <div
             style={{
@@ -141,6 +185,10 @@ export default function AdminPage({
               border: `1px solid ${COLORS.border}`,
             }}
           >
+            <h3 style={{ color: COLORS.primary, marginBottom: "15px" }}>
+              {isEditing ? "تعديل المنتج" : "إضافة منتج جديد"}
+            </h3>
+
             <input
               placeholder="اسم المنتج"
               value={form.name}
@@ -192,7 +240,6 @@ export default function AdminPage({
               style={inputStyle}
             />
 
-            {/* IMAGE FILE */}
             <input
               type="file"
               accept="image/*"
@@ -200,19 +247,23 @@ export default function AdminPage({
               style={{ marginBottom: "10px" }}
             />
 
-            {/* PREVIEW */}
-            {imagePreview && (
+            {(imagePreview || form.image) && (
               <img
-                src={imagePreview}
+                src={imagePreview || form.image}
                 alt="preview"
-                style={{ width: "120px", marginBottom: "10px" }}
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                  marginBottom: "10px",
+                }}
               />
             )}
 
-            {/* IMAGE URL */}
             <input
               placeholder="او لينك صورة"
-              value={form.image}
+              value={form.image.startsWith("data:") ? "" : form.image}
               onChange={(e) => {
                 setForm((p) => ({ ...p, image: e.target.value }));
                 setImagePreview("");
@@ -230,14 +281,31 @@ export default function AdminPage({
                 width: "100%",
                 borderRadius: "999px",
                 cursor: "pointer",
+                marginBottom: "10px",
               }}
             >
-              حفظ المنتج
+              {isEditing ? "حفظ التعديل" : "حفظ المنتج"}
             </button>
+
+            {isEditing && (
+              <button
+                onClick={resetForm}
+                style={{
+                  background: "#eee",
+                  color: COLORS.text,
+                  border: "none",
+                  padding: "10px",
+                  width: "100%",
+                  borderRadius: "999px",
+                  cursor: "pointer",
+                }}
+              >
+                إلغاء التعديل
+              </button>
+            )}
           </div>
         )}
 
-        {/* PRODUCTS */}
         <div
           style={{
             display: "grid",
@@ -289,24 +357,51 @@ export default function AdminPage({
                   </span>
                 </div>
 
-                <button
-                  onClick={() => deleteProduct(p.id)}
-                  style={{
-                    background: "#ffe5e5",
-                    border: "none",
-                    padding: "6px",
-                    width: "100%",
-                    borderRadius: "6px",
-                    color: "#c0392b",
-                    cursor: "pointer",
-                  }}
-                >
-                  حذف
-                </button>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <button
+                    onClick={() => startEdit(p)}
+                    style={{
+                      flex: 1,
+                      background: COLORS.primary,
+                      border: "none",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      color: "#fff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    تعديل
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      if (window.confirm(`هتحذف "${p.name}"؟`)) {
+                        deleteProduct(p.id);
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      background: "#ffe5e5",
+                      border: "none",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      color: "#c0392b",
+                      cursor: "pointer",
+                    }}
+                  >
+                    حذف
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
+
+        {products.length === 0 && (
+          <div style={{ textAlign: "center", padding: "60px", color: "#777" }}>
+            مفيش منتجات لسه
+          </div>
+        )}
       </div>
     </div>
   );
