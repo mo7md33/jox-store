@@ -96,7 +96,9 @@ export default function StorePage({
   };
 
   const hasDiscount = (product) => {
-    return product.old_price && Number(product.old_price) > Number(product.price);
+    return (
+      product.old_price && Number(product.old_price) > Number(product.price)
+    );
   };
 
   const discountPercent = (product) => {
@@ -104,7 +106,7 @@ export default function StorePage({
     return Math.round(
       ((Number(product.old_price) - Number(product.price)) /
         Number(product.old_price)) *
-        100
+        100,
     );
   };
 
@@ -127,7 +129,7 @@ export default function StorePage({
         (item) =>
           `• ${item.name}${item.size ? " - مقاس " + item.size : ""} × ${
             item.qty
-          } = ${item.price * item.qty} جنيه\n  📸 ${item.image}`
+          } = ${item.price * item.qty} جنيه\n  📸 ${item.image}`,
       )
       .join("\n");
 
@@ -135,15 +137,15 @@ export default function StorePage({
 
     window.open(
       `https://wa.me/20${STORE_INFO.phone.slice(1)}?text=${encodeURIComponent(
-        msg
+        msg,
       )}`,
-      "_blank"
+      "_blank",
     );
   };
 
-  const instagramOrder = () => {
-    window.open(STORE_INFO.instagramDM, "_blank");
-  };
+ const instagramOrder = () => {
+  window.open("https://ig.me/m/jox._eg", "_blank");
+};
 
   return (
     <div
@@ -293,7 +295,7 @@ export default function StorePage({
             marginBottom: "12px",
           }}
         >
-          JOX Premium Wear
+          Style That Defines You
         </h1>
 
         <p
@@ -439,8 +441,7 @@ export default function StorePage({
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 5px 18px rgba(0,0,0,0.04)";
+                e.currentTarget.style.boxShadow = "0 5px 18px rgba(0,0,0,0.04)";
                 e.currentTarget.style.borderColor = COLORS.border;
               }}
             >
@@ -971,7 +972,7 @@ export default function StorePage({
                       cursor: "pointer",
                     }}
                   >
-                    📸 انستجرام
+                    📸 راسلنا على إنستجرام
                   </button>
                 </div>
               </div>
