@@ -15,11 +15,13 @@ const C = {
 };
 
 const STORE_INFO = {
-  phone: "01150565044",
+  phone: "01115394400",
   location: "العياط - الجيزة",
-  instagram: "https://www.instagram.com/jox._eg",
-  instagramDM: "https://ig.me/m/jox._eg",
-  tiktok: "https://www.tiktok.com/@jox_eg2",
+  instagram:
+    "https://www.instagram.com/pan57495?utm_source=qr&igsh=cTZwbG5oY2t5eHJw",
+  instagramDM:
+    "https://www.instagram.com/pan57495?utm_source=qr&igsh=cTZwbG5oY2t5eHJw",
+  tiktok: "https://www.tiktok.com/@ahmedbahy155?_r=1&_t=ZS-97d8cU9tYzh",
 };
 
 const SIZES = {
@@ -47,7 +49,14 @@ function BandaLogo({ size = 50 }) {
   );
 }
 
-export default function StorePage({ products, cart, addToCart, removeFromCart, updateQty, onContactClick }) {
+export default function StorePage({
+  products,
+  cart,
+  addToCart,
+  removeFromCart,
+  updateQty,
+  onContactClick,
+}) {
   const [showCart, setShowCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -58,7 +67,8 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
   const categories = ["الكل", ...new Set(products.map((p) => p.category))];
 
   const filtered = products.filter((p) => {
-    const matchCategory = activeCategory === "الكل" || p.category === activeCategory;
+    const matchCategory =
+      activeCategory === "الكل" || p.category === activeCategory;
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.category.toLowerCase().includes(search.toLowerCase());
@@ -73,15 +83,21 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
     return SIZES[category.trim()] || null;
   };
 
-  const hasDiscount = (p) => p.old_price && Number(p.old_price) > Number(p.price);
+  const hasDiscount = (p) =>
+    p.old_price && Number(p.old_price) > Number(p.price);
   const discountPercent = (p) => {
     if (!hasDiscount(p)) return null;
-    return Math.round(((Number(p.old_price) - Number(p.price)) / Number(p.old_price)) * 100);
+    return Math.round(
+      ((Number(p.old_price) - Number(p.price)) / Number(p.old_price)) * 100,
+    );
   };
 
   const handleAddToCart = (product, size = null) => {
     const sizes = getSizes(product.category);
-    if (sizes && !size) { setSizeError(true); return; }
+    if (sizes && !size) {
+      setSizeError(true);
+      return;
+    }
     addToCart({ ...product, size });
     setSelectedSize(null);
     setSizeError(false);
@@ -90,13 +106,23 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
   const whatsappOrder = () => {
     if (cart.length === 0) return;
     const items = cart
-      .map((item) => `• ${item.name}${item.size ? " - مقاس " + item.size : ""} × ${item.qty} = ${item.price * item.qty} جنيه\n  📸 ${item.image}`)
+      .map(
+        (item) =>
+          `• ${item.name}${item.size ? " - مقاس " + item.size : ""} × ${item.qty} = ${item.price * item.qty} جنيه\n  📸 ${item.image}`,
+      )
       .join("\n");
     const msg = `مرحباً BANDA CLOTHING STORE 👋\nعايز أطلب:\n${items}\n\nالإجمالي: ${totalPrice} جنيه`;
-    window.open(`https://wa.me/20${STORE_INFO.phone.slice(1)}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(
+      `https://wa.me/20${STORE_INFO.phone.slice(1)}?text=${encodeURIComponent(msg)}`,
+      "_blank",
+    );
   };
 
-  const instagramOrder = () => window.open("https://ig.me/m/jox._eg", "_blank");
+  const instagramOrder = () =>
+    window.open(
+      "https://www.instagram.com/pan57495?utm_source=qr&igsh=cTZwbG5oY2t5eHJw",
+      "_blank",
+    );
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, direction: "rtl" }}>
@@ -124,33 +150,44 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       `}</style>
 
       {/* ── HEADER ── */}
-      <header style={{
-        background: "rgba(13,13,13,0.95)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(201,168,76,0.2)",
-        padding: "0 28px",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        height: "76px",
-        boxShadow: "0 4px 30px rgba(0,0,0,0.4)",
-      }}>
+      <header
+        style={{
+          background: "rgba(13,13,13,0.95)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(201,168,76,0.2)",
+          padding: "0 28px",
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "76px",
+          boxShadow: "0 4px 30px rgba(0,0,0,0.4)",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           <BandaLogo size={46} />
           <div>
-            <div style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-              color: C.primary,
-              fontSize: "17px",
-              fontWeight: "700",
-              letterSpacing: "3px",
-            }}>
+            <div
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                color: C.primary,
+                fontSize: "17px",
+                fontWeight: "700",
+                letterSpacing: "3px",
+              }}
+            >
               BANDA
             </div>
-            <div style={{ color: C.muted, fontSize: "9px", letterSpacing: "3px", marginTop: "1px" }}>
+            <div
+              style={{
+                color: C.muted,
+                fontSize: "9px",
+                letterSpacing: "3px",
+                marginTop: "1px",
+              }}
+            >
               CLOTHING STORE
             </div>
           </div>
@@ -160,9 +197,10 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
           onClick={() => setShowCart(true)}
           className="gold-btn"
           style={{
-            background: totalItems > 0
-              ? "linear-gradient(135deg, #C9A84C, #A8832A)"
-              : "transparent",
+            background:
+              totalItems > 0
+                ? "linear-gradient(135deg, #C9A84C, #A8832A)"
+                : "transparent",
             border: `1px solid ${C.primary}`,
             borderRadius: "999px",
             color: totalItems > 0 ? "#0D0D0D" : C.primary,
@@ -173,23 +211,26 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
             fontWeight: "700",
             fontSize: "14px",
             cursor: "pointer",
-            boxShadow: totalItems > 0 ? "0 4px 16px rgba(201,168,76,0.25)" : "none",
+            boxShadow:
+              totalItems > 0 ? "0 4px 16px rgba(201,168,76,0.25)" : "none",
           }}
         >
           🛒 السلة
           {totalItems > 0 && (
-            <span style={{
-              background: "#0D0D0D",
-              color: C.primary,
-              borderRadius: "50%",
-              width: "22px",
-              height: "22px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "11px",
-              fontWeight: "800",
-            }}>
+            <span
+              style={{
+                background: "#0D0D0D",
+                color: C.primary,
+                borderRadius: "50%",
+                width: "22px",
+                height: "22px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "11px",
+                fontWeight: "800",
+              }}
+            >
               {totalItems}
             </span>
           )}
@@ -197,64 +238,90 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       </header>
 
       {/* ── HERO BANNER ── */}
-      <div style={{
-        textAlign: "center",
-        padding: "80px 24px 70px",
-        borderBottom: "1px solid rgba(201,168,76,0.15)",
-        background: "linear-gradient(180deg, #141414 0%, #0D0D0D 100%)",
-        position: "relative",
-        overflow: "hidden",
-      }}>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "80px 24px 70px",
+          borderBottom: "1px solid rgba(201,168,76,0.15)",
+          background: "linear-gradient(180deg, #141414 0%, #0D0D0D 100%)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
         {/* Decorative gold lines */}
-        <div style={{
-          position: "absolute",
-          top: 0, left: 0, right: 0,
-          height: "2px",
-          background: "linear-gradient(90deg, transparent, #C9A84C, transparent)",
-        }} />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "2px",
+            background:
+              "linear-gradient(90deg, transparent, #C9A84C, transparent)",
+          }}
+        />
 
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "28px" }}>
-          <div style={{
-            padding: "6px",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #C9A84C, #A8832A)",
-          }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "28px",
+          }}
+        >
+          <div
+            style={{
+              padding: "6px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #C9A84C, #A8832A)",
+            }}
+          >
             <BandaLogo size={100} />
           </div>
         </div>
 
-        <div style={{
-          color: C.primary,
-          fontSize: "11px",
-          letterSpacing: "5px",
-          marginBottom: "16px",
-          fontWeight: "600",
-        }}>
+        <div
+          style={{
+            color: C.primary,
+            fontSize: "11px",
+            letterSpacing: "5px",
+            marginBottom: "16px",
+            fontWeight: "600",
+          }}
+        >
           PREMIUM MEN'S FASHION
         </div>
 
-        <h1 className="hero-title" style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontSize: "48px",
-          color: C.text,
-          marginBottom: "14px",
-          fontWeight: "700",
-          lineHeight: "1.2",
-        }}>
+        <h1
+          className="hero-title"
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: "48px",
+            color: C.text,
+            marginBottom: "14px",
+            fontWeight: "700",
+            lineHeight: "1.2",
+          }}
+        >
           Style That Defines You
         </h1>
 
-        <p style={{
-          color: C.muted,
-          fontSize: "16px",
-          marginBottom: "32px",
-        }}>
+        <p
+          style={{
+            color: C.muted,
+            fontSize: "16px",
+            marginBottom: "32px",
+          }}
+        >
           ستايل رجالي راقي يميزك
         </p>
 
         <button
           className="gold-btn"
-          onClick={() => document.getElementById("products-section")?.scrollIntoView({ behavior: "smooth" })}
+          onClick={() =>
+            document
+              .getElementById("products-section")
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
           style={{
             background: "linear-gradient(135deg, #C9A84C, #A8832A)",
             color: "#0D0D0D",
@@ -290,29 +357,40 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               textAlign: "right",
               boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
             }}
-            onFocus={e => { e.target.style.borderColor = "#C9A84C"; }}
-            onBlur={e => { e.target.style.borderColor = "rgba(201,168,76,0.25)"; }}
+            onFocus={(e) => {
+              e.target.style.borderColor = "#C9A84C";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = "rgba(201,168,76,0.25)";
+            }}
           />
         </div>
 
-        <div style={{
-          position: "absolute",
-          bottom: 0, left: 0, right: 0,
-          height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)",
-        }} />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "1px",
+            background:
+              "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)",
+          }}
+        />
       </div>
 
       {/* ── CATEGORIES ── */}
-      <div style={{
-        padding: "24px 28px",
-        display: "flex",
-        gap: "10px",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        borderBottom: "1px solid rgba(201,168,76,0.12)",
-        background: "#0D0D0D",
-      }}>
+      <div
+        style={{
+          padding: "24px 28px",
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          borderBottom: "1px solid rgba(201,168,76,0.12)",
+          background: "#0D0D0D",
+        }}
+      >
         {categories.map((cat) => (
           <button
             key={cat}
@@ -322,9 +400,10 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               padding: "9px 22px",
               borderRadius: "999px",
               border: `1px solid ${activeCategory === cat ? C.primary : "rgba(201,168,76,0.25)"}`,
-              background: activeCategory === cat
-                ? "linear-gradient(135deg, #C9A84C, #A8832A)"
-                : "transparent",
+              background:
+                activeCategory === cat
+                  ? "linear-gradient(135deg, #C9A84C, #A8832A)"
+                  : "transparent",
               color: activeCategory === cat ? "#0D0D0D" : C.primary,
               fontWeight: "700",
               fontSize: "14px",
@@ -352,7 +431,14 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
         }}
       >
         {filtered.length === 0 ? (
-          <div style={{ textAlign: "center", color: C.muted, padding: "80px", gridColumn: "1/-1" }}>
+          <div
+            style={{
+              textAlign: "center",
+              color: C.muted,
+              padding: "80px",
+              gridColumn: "1/-1",
+            }}
+          >
             <div style={{ fontSize: "48px", marginBottom: "16px" }}>🔍</div>
             <p>مفيش نتايج للبحث ده</p>
           </div>
@@ -371,8 +457,17 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               }}
             >
               <div
-                onClick={() => { setSelectedProduct(product); setSelectedSize(null); setSizeError(false); }}
-                style={{ position: "relative", paddingTop: "110%", overflow: "hidden", background: "#1A1A1A" }}
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setSelectedSize(null);
+                  setSizeError(false);
+                }}
+                style={{
+                  position: "relative",
+                  paddingTop: "110%",
+                  overflow: "hidden",
+                  background: "#1A1A1A",
+                }}
               >
                 <img
                   src={product.image}
@@ -381,79 +476,128 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                   decoding="async"
                   className="card-img"
                   style={{
-                    position: "absolute", top: 0, left: 0,
-                    width: "100%", height: "100%", objectFit: "cover",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
                   }}
                 />
 
                 {/* Category badge */}
-                <div style={{
-                  position: "absolute", top: "12px", right: "12px",
-                  background: "linear-gradient(135deg, #C9A84C, #A8832A)",
-                  color: "#0D0D0D",
-                  padding: "4px 12px",
-                  borderRadius: "999px",
-                  fontSize: "10px",
-                  fontWeight: "700",
-                  letterSpacing: "1px",
-                }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "12px",
+                    right: "12px",
+                    background: "linear-gradient(135deg, #C9A84C, #A8832A)",
+                    color: "#0D0D0D",
+                    padding: "4px 12px",
+                    borderRadius: "999px",
+                    fontSize: "10px",
+                    fontWeight: "700",
+                    letterSpacing: "1px",
+                  }}
+                >
                   {product.category}
                 </div>
 
                 {hasDiscount(product) && (
-                  <div style={{
-                    position: "absolute", top: "12px", left: "12px",
-                    background: "#c0392b",
-                    color: "#fff",
-                    padding: "4px 12px",
-                    borderRadius: "999px",
-                    fontSize: "10px",
-                    fontWeight: "800",
-                  }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      left: "12px",
+                      background: "#c0392b",
+                      color: "#fff",
+                      padding: "4px 12px",
+                      borderRadius: "999px",
+                      fontSize: "10px",
+                      fontWeight: "800",
+                    }}
+                  >
                     خصم {discountPercent(product)}%
                   </div>
                 )}
 
                 {/* Hover overlay */}
-                <div style={{
-                  position: "absolute", inset: 0,
-                  background: "linear-gradient(to top, rgba(13,13,13,0.6) 0%, transparent 50%)",
-                  pointerEvents: "none",
-                }} />
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(to top, rgba(13,13,13,0.6) 0%, transparent 50%)",
+                    pointerEvents: "none",
+                  }}
+                />
               </div>
 
               <div style={{ padding: "18px" }}>
-                <h3 style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  color: C.text,
-                  fontSize: "16px",
-                  marginBottom: "6px",
-                  fontWeight: "600",
-                }}>
+                <h3
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    color: C.text,
+                    fontSize: "16px",
+                    marginBottom: "6px",
+                    fontWeight: "600",
+                  }}
+                >
                   {product.name}
                 </h3>
 
                 {product.description && (
-                  <p style={{ color: C.muted, fontSize: "12px", marginBottom: "14px", lineHeight: "1.5" }}>
+                  <p
+                    style={{
+                      color: C.muted,
+                      fontSize: "12px",
+                      marginBottom: "14px",
+                      lineHeight: "1.5",
+                    }}
+                  >
                     {product.description}
                   </p>
                 )}
 
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "10px",
+                  }}
+                >
                   <div>
                     {hasDiscount(product) && (
-                      <span style={{ color: "#c0392b", textDecoration: "line-through", fontSize: "12px", marginLeft: "6px" }}>
+                      <span
+                        style={{
+                          color: "#c0392b",
+                          textDecoration: "line-through",
+                          fontSize: "12px",
+                          marginLeft: "6px",
+                        }}
+                      >
                         {product.old_price} جنيه
                       </span>
                     )}
-                    <span style={{ color: C.primary, fontWeight: "800", fontSize: "17px" }}>
+                    <span
+                      style={{
+                        color: C.primary,
+                        fontWeight: "800",
+                        fontSize: "17px",
+                      }}
+                    >
                       {product.price} جنيه
                     </span>
                   </div>
 
                   <button
                     className="gold-btn"
-                    onClick={() => { setSelectedProduct(product); setSelectedSize(null); setSizeError(false); }}
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setSelectedSize(null);
+                      setSizeError(false);
+                    }}
                     style={{
                       background: "linear-gradient(135deg, #C9A84C, #A8832A)",
                       border: "none",
@@ -477,39 +621,82 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
       </div>
 
       {/* ── FOOTER ── */}
-      <footer style={{
-        background: "#0A0A0A",
-        borderTop: "1px solid rgba(201,168,76,0.2)",
-        padding: "60px 28px 40px",
-        textAlign: "center",
-      }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-          <div style={{ padding: "4px", borderRadius: "50%", background: "linear-gradient(135deg, #C9A84C, #A8832A)" }}>
+      <footer
+        style={{
+          background: "#0A0A0A",
+          borderTop: "1px solid rgba(201,168,76,0.2)",
+          padding: "60px 28px 40px",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <div
+            style={{
+              padding: "4px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #C9A84C, #A8832A)",
+            }}
+          >
             <BandaLogo size={64} />
           </div>
         </div>
 
-        <div style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          color: C.primary,
-          fontSize: "22px",
-          marginBottom: "6px",
-          letterSpacing: "5px",
-          fontWeight: "700",
-        }}>
+        <div
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            color: C.primary,
+            fontSize: "22px",
+            marginBottom: "6px",
+            letterSpacing: "5px",
+            fontWeight: "700",
+          }}
+        >
           BANDA
         </div>
 
-        <div style={{ color: C.muted, fontSize: "10px", letterSpacing: "4px", marginBottom: "32px" }}>
+        <div
+          style={{
+            color: C.muted,
+            fontSize: "10px",
+            letterSpacing: "4px",
+            marginBottom: "32px",
+          }}
+        >
           CLOTHING STORE
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: "36px", flexWrap: "wrap", marginBottom: "28px" }}>
-          <div style={{ color: "#AAA", fontSize: "14px" }}>📞 {STORE_INFO.phone}</div>
-          <div style={{ color: "#AAA", fontSize: "14px" }}>📍 {STORE_INFO.location}</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "36px",
+            flexWrap: "wrap",
+            marginBottom: "28px",
+          }}
+        >
+          <div style={{ color: "#AAA", fontSize: "14px" }}>
+            📞 {STORE_INFO.phone}
+          </div>
+          <div style={{ color: "#AAA", fontSize: "14px" }}>
+            📍 {STORE_INFO.location}
+          </div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "28px", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "12px",
+            marginBottom: "28px",
+            flexWrap: "wrap",
+          }}
+        >
           <a
             href={STORE_INFO.instagram}
             target="_blank"
@@ -524,8 +711,12 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               fontWeight: "600",
               transition: "all 0.25s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = "rgba(201,168,76,0.1)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(201,168,76,0.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+            }}
           >
             📸 Instagram
           </a>
@@ -544,8 +735,12 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
               fontWeight: "600",
               transition: "all 0.25s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = "rgba(201,168,76,0.1)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(201,168,76,0.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+            }}
           >
             🎵 TikTok
           </a>
@@ -570,82 +765,218 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
           📩 تواصل معنا
         </button>
 
-        <div style={{
-          borderTop: "1px solid rgba(201,168,76,0.1)",
-          paddingTop: "24px",
-          color: "#444",
-          fontSize: "12px",
-          letterSpacing: "1px",
-        }}>
+        <div
+          style={{
+            borderTop: "1px solid rgba(201,168,76,0.1)",
+            paddingTop: "24px",
+            color: "#444",
+            fontSize: "12px",
+            letterSpacing: "1px",
+          }}
+        >
           © 2025 BANDA CLOTHING STORE — جميع الحقوق محفوظة
         </div>
       </footer>
 
       {/* ── CART DRAWER ── */}
       {showCart && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", justifyContent: "flex-start" }}>
-          <div onClick={() => setShowCart(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.7)" }} />
-
-          <div style={{
-            position: "relative",
-            width: "390px",
-            maxWidth: "90vw",
-            background: "#111",
-            height: "100%",
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 200,
             display: "flex",
-            flexDirection: "column",
-            borderLeft: "1px solid rgba(201,168,76,0.2)",
-            animation: "slideCart 0.3s ease",
-            boxShadow: "0 0 60px rgba(0,0,0,0.6)",
-          }}>
-            <div style={{
-              padding: "20px 24px",
-              borderBottom: "1px solid rgba(201,168,76,0.15)",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div
+            onClick={() => setShowCart(false)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "rgba(0,0,0,0.7)",
+            }}
+          />
+
+          <div
+            style={{
+              position: "relative",
+              width: "390px",
+              maxWidth: "90vw",
+              background: "#111",
+              height: "100%",
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              background: "#141414",
-            }}>
-              <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: C.primary, fontSize: "18px", letterSpacing: "1px" }}>
+              flexDirection: "column",
+              borderLeft: "1px solid rgba(201,168,76,0.2)",
+              animation: "slideCart 0.3s ease",
+              boxShadow: "0 0 60px rgba(0,0,0,0.6)",
+            }}
+          >
+            <div
+              style={{
+                padding: "20px 24px",
+                borderBottom: "1px solid rgba(201,168,76,0.15)",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                background: "#141414",
+              }}
+            >
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  color: C.primary,
+                  fontSize: "18px",
+                  letterSpacing: "1px",
+                }}
+              >
                 السلة 🛒
               </h2>
-              <button onClick={() => setShowCart(false)} style={{ background: "none", border: "none", color: C.muted, fontSize: "20px", cursor: "pointer" }}>
+              <button
+                onClick={() => setShowCart(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: C.muted,
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+              >
                 ✕
               </button>
             </div>
 
             <div style={{ flex: 1, overflowY: "auto", padding: "16px 24px" }}>
               {cart.length === 0 ? (
-                <div style={{ textAlign: "center", color: C.muted, marginTop: "80px" }}>
-                  <div style={{ fontSize: "52px", marginBottom: "16px" }}>🛒</div>
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: C.muted,
+                    marginTop: "80px",
+                  }}
+                >
+                  <div style={{ fontSize: "52px", marginBottom: "16px" }}>
+                    🛒
+                  </div>
                   <p>السلة فاضية</p>
-                  <p style={{ fontSize: "12px", marginTop: "8px", color: "#555" }}>أضف منتجات من المتجر</p>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      marginTop: "8px",
+                      color: "#555",
+                    }}
+                  >
+                    أضف منتجات من المتجر
+                  </p>
                 </div>
               ) : (
                 cart.map((item, index) => (
-                  <div key={index} style={{
-                    display: "flex",
-                    gap: "12px",
-                    alignItems: "center",
-                    padding: "14px 0",
-                    borderBottom: "1px solid rgba(201,168,76,0.1)",
-                  }}>
-                    <img src={item.image} alt={item.name} loading="lazy" decoding="async"
-                      style={{ width: "64px", height: "64px", objectFit: "cover", borderRadius: "10px", border: "1px solid rgba(201,168,76,0.2)" }} />
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                      padding: "14px 0",
+                      borderBottom: "1px solid rgba(201,168,76,0.1)",
+                    }}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      loading="lazy"
+                      decoding="async"
+                      style={{
+                        width: "64px",
+                        height: "64px",
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                        border: "1px solid rgba(201,168,76,0.2)",
+                      }}
+                    />
 
                     <div style={{ flex: 1 }}>
-                      <p style={{ color: C.text, fontSize: "14px", marginBottom: "3px", fontWeight: "700" }}>{item.name}</p>
-                      {item.size && <p style={{ color: C.primary, fontSize: "11px", marginBottom: "4px", letterSpacing: "0.5px" }}>مقاس: {item.size}</p>}
-                      <p style={{ color: C.muted, fontSize: "12px", marginBottom: "8px" }}>{item.price} جنيه</p>
+                      <p
+                        style={{
+                          color: C.text,
+                          fontSize: "14px",
+                          marginBottom: "3px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        {item.name}
+                      </p>
+                      {item.size && (
+                        <p
+                          style={{
+                            color: C.primary,
+                            fontSize: "11px",
+                            marginBottom: "4px",
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          مقاس: {item.size}
+                        </p>
+                      )}
+                      <p
+                        style={{
+                          color: C.muted,
+                          fontSize: "12px",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        {item.price} جنيه
+                      </p>
 
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <button onClick={() => updateQty(item.id, item.qty - 1)} style={qtyBtnMinus}>-</button>
-                        <span style={{ color: C.text, fontWeight: "700", minWidth: "20px", textAlign: "center" }}>{item.qty}</span>
-                        <button onClick={() => updateQty(item.id, item.qty + 1)} style={qtyBtnPlus}>+</button>
-                        <span style={{ color: C.primary, fontSize: "13px", marginRight: "auto", fontWeight: "700" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <button
+                          onClick={() => updateQty(item.id, item.qty - 1)}
+                          style={qtyBtnMinus}
+                        >
+                          -
+                        </button>
+                        <span
+                          style={{
+                            color: C.text,
+                            fontWeight: "700",
+                            minWidth: "20px",
+                            textAlign: "center",
+                          }}
+                        >
+                          {item.qty}
+                        </span>
+                        <button
+                          onClick={() => updateQty(item.id, item.qty + 1)}
+                          style={qtyBtnPlus}
+                        >
+                          +
+                        </button>
+                        <span
+                          style={{
+                            color: C.primary,
+                            fontSize: "13px",
+                            marginRight: "auto",
+                            fontWeight: "700",
+                          }}
+                        >
                           {item.price * item.qty} جنيه
                         </span>
-                        <button onClick={() => removeFromCart(item.id)} style={{ background: "none", border: "none", color: "#e74c3c", fontSize: "16px", cursor: "pointer" }}>
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#e74c3c",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                          }}
+                        >
                           🗑
                         </button>
                       </div>
@@ -656,26 +987,66 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
             </div>
 
             {cart.length > 0 && (
-              <div style={{ padding: "20px 24px", borderTop: "1px solid rgba(201,168,76,0.15)", background: "#141414" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "18px" }}>
+              <div
+                style={{
+                  padding: "20px 24px",
+                  borderTop: "1px solid rgba(201,168,76,0.15)",
+                  background: "#141414",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "18px",
+                  }}
+                >
                   <span style={{ color: C.muted }}>الإجمالي:</span>
-                  <span style={{ color: C.primary, fontWeight: "800", fontSize: "18px" }}>{totalPrice} جنيه</span>
+                  <span
+                    style={{
+                      color: C.primary,
+                      fontWeight: "800",
+                      fontSize: "18px",
+                    }}
+                  >
+                    {totalPrice} جنيه
+                  </span>
                 </div>
 
                 <div style={{ display: "flex", gap: "10px" }}>
-                  <button onClick={whatsappOrder} className="gold-btn" style={{
-                    flex: 1, padding: "13px",
-                    background: "#25D366", border: "none", borderRadius: "999px",
-                    color: "#fff", fontWeight: "800", fontSize: "14px", cursor: "pointer",
-                  }}>
+                  <button
+                    onClick={whatsappOrder}
+                    className="gold-btn"
+                    style={{
+                      flex: 1,
+                      padding: "13px",
+                      background: "#25D366",
+                      border: "none",
+                      borderRadius: "999px",
+                      color: "#fff",
+                      fontWeight: "800",
+                      fontSize: "14px",
+                      cursor: "pointer",
+                    }}
+                  >
                     📱 واتساب
                   </button>
 
-                  <button onClick={instagramOrder} className="gold-btn" style={{
-                    flex: 1, padding: "13px",
-                    background: "#E1306C", border: "none", borderRadius: "999px",
-                    color: "#fff", fontWeight: "800", fontSize: "13px", cursor: "pointer",
-                  }}>
+                  <button
+                    onClick={instagramOrder}
+                    className="gold-btn"
+                    style={{
+                      flex: 1,
+                      padding: "13px",
+                      background: "#E1306C",
+                      border: "none",
+                      borderRadius: "999px",
+                      color: "#fff",
+                      fontWeight: "800",
+                      fontSize: "13px",
+                      cursor: "pointer",
+                    }}
+                  >
                     📸 إنستجرام
                   </button>
                 </div>
@@ -687,62 +1058,123 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
 
       {/* ── PRODUCT MODAL ── */}
       {selectedProduct && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 200,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <div
-            onClick={() => { setSelectedProduct(null); setSelectedSize(null); setSizeError(false); }}
-            style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.75)" }}
+            onClick={() => {
+              setSelectedProduct(null);
+              setSelectedSize(null);
+              setSizeError(false);
+            }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "rgba(0,0,0,0.75)",
+            }}
           />
 
-          <div style={{
-            position: "relative",
-            background: "#141414",
-            borderRadius: "22px",
-            border: "1px solid rgba(201,168,76,0.3)",
-            maxWidth: "500px",
-            width: "92%",
-            overflow: "hidden",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.15)",
-            animation: "modalPop 0.25s ease",
-          }}>
-            <div style={{ position: "relative", height: "300px", overflow: "hidden", background: "#1A1A1A" }}>
+          <div
+            style={{
+              position: "relative",
+              background: "#141414",
+              borderRadius: "22px",
+              border: "1px solid rgba(201,168,76,0.3)",
+              maxWidth: "500px",
+              width: "92%",
+              overflow: "hidden",
+              boxShadow:
+                "0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.15)",
+              animation: "modalPop 0.25s ease",
+            }}
+          >
+            <div
+              style={{
+                position: "relative",
+                height: "300px",
+                overflow: "hidden",
+                background: "#1A1A1A",
+              }}
+            >
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
                 decoding="async"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(to top, rgba(20,20,20,0.8) 0%, transparent 50%)",
-              }} />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to top, rgba(20,20,20,0.8) 0%, transparent 50%)",
+                }}
+              />
             </div>
 
             <div style={{ padding: "26px" }}>
-              <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: C.text, marginBottom: "8px", fontSize: "20px" }}>
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  color: C.text,
+                  marginBottom: "8px",
+                  fontSize: "20px",
+                }}
+              >
                 {selectedProduct.name}
               </h2>
 
               {selectedProduct.description && (
-                <p style={{ color: C.muted, marginBottom: "18px", lineHeight: "1.6", fontSize: "14px" }}>
+                <p
+                  style={{
+                    color: C.muted,
+                    marginBottom: "18px",
+                    lineHeight: "1.6",
+                    fontSize: "14px",
+                  }}
+                >
                   {selectedProduct.description}
                 </p>
               )}
 
               {getSizes(selectedProduct.category) && (
                 <div style={{ marginBottom: "18px" }}>
-                  <p style={{ color: C.primary, fontWeight: "700", marginBottom: "10px", fontSize: "13px", letterSpacing: "1px" }}>
+                  <p
+                    style={{
+                      color: C.primary,
+                      fontWeight: "700",
+                      marginBottom: "10px",
+                      fontSize: "13px",
+                      letterSpacing: "1px",
+                    }}
+                  >
                     اختر المقاس:
                   </p>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <div
+                    style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}
+                  >
                     {getSizes(selectedProduct.category).map((size) => (
                       <button
                         key={size}
-                        onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                        onClick={() => {
+                          setSelectedSize(size);
+                          setSizeError(false);
+                        }}
                         style={{
                           padding: "8px 14px",
                           borderRadius: "999px",
                           border: `1px solid ${selectedSize === size ? C.primary : "rgba(201,168,76,0.25)"}`,
-                          background: selectedSize === size ? "linear-gradient(135deg, #C9A84C, #A8832A)" : "transparent",
+                          background:
+                            selectedSize === size
+                              ? "linear-gradient(135deg, #C9A84C, #A8832A)"
+                              : "transparent",
                           color: selectedSize === size ? "#0D0D0D" : C.text,
                           fontWeight: "700",
                           fontSize: "13px",
@@ -754,18 +1186,48 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                       </button>
                     ))}
                   </div>
-                  {sizeError && <p style={{ color: "#e74c3c", fontSize: "12px", marginTop: "8px" }}>⚠️ من فضلك اختر المقاس أول!</p>}
+                  {sizeError && (
+                    <p
+                      style={{
+                        color: "#e74c3c",
+                        fontSize: "12px",
+                        marginTop: "8px",
+                      }}
+                    >
+                      ⚠️ من فضلك اختر المقاس أول!
+                    </p>
+                  )}
                 </div>
               )}
 
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "14px",
+                }}
+              >
                 <div>
                   {hasDiscount(selectedProduct) && (
-                    <span style={{ color: "#c0392b", textDecoration: "line-through", fontSize: "13px", marginLeft: "8px" }}>
+                    <span
+                      style={{
+                        color: "#c0392b",
+                        textDecoration: "line-through",
+                        fontSize: "13px",
+                        marginLeft: "8px",
+                      }}
+                    >
                       {selectedProduct.old_price} جنيه
                     </span>
                   )}
-                  <span style={{ color: C.primary, fontSize: "22px", fontWeight: "800" }}>
+                  <span
+                    style={{
+                      color: C.primary,
+                      fontSize: "22px",
+                      fontWeight: "800",
+                    }}
+                  >
                     {selectedProduct.price} جنيه
                   </span>
                 </div>
@@ -774,7 +1236,10 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
                   className="gold-btn"
                   onClick={() => {
                     const sizes = getSizes(selectedProduct.category);
-                    if (sizes && !selectedSize) { setSizeError(true); return; }
+                    if (sizes && !selectedSize) {
+                      setSizeError(true);
+                      return;
+                    }
                     handleAddToCart(selectedProduct, selectedSize);
                     setSelectedProduct(null);
                   }}
@@ -796,7 +1261,11 @@ export default function StorePage({ products, cart, addToCart, removeFromCart, u
             </div>
 
             <button
-              onClick={() => { setSelectedProduct(null); setSelectedSize(null); setSizeError(false); }}
+              onClick={() => {
+                setSelectedProduct(null);
+                setSelectedSize(null);
+                setSizeError(false);
+              }}
               style={{
                 position: "absolute",
                 top: "12px",
