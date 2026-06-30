@@ -1,0 +1,20 @@
+{
+  "short_name": "BANDA Store",
+  "name": "BANDA Clothing Store",
+  "icons": [
+    {
+      "src": "banda-logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "banda-logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#C9A84C",
+  "background_color": "#0D0D0D"
+}
